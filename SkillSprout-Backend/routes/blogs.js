@@ -29,13 +29,17 @@ router.post("/", upload.single("image"), async (req, res) => {
       content: req.body.content,
       author: req.body.author, // Use author from request body
       image: req.file ? req.file.path : "",
+      category: req.body.category,
     });
 
     const savedBlog = await newBlog.save();
-    
+
     // Populate the author information before returning
-    const blog = await Blog.findById(savedBlog._id).populate("author", "username");
-    
+    const blog = await Blog.findById(savedBlog._id).populate(
+      "author",
+      "username"
+    );
+
     res.status(201).json(blog);
   } catch (err) {
     console.error("Error creating blog:", err);
@@ -81,7 +85,10 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     }
 
     // Check if the user is the author of the blog using author from request body
-    if (req.body.currentUserId && blog.author.toString() !== req.body.currentUserId) {
+    if (
+      req.body.currentUserId &&
+      blog.author.toString() !== req.body.currentUserId
+    ) {
       return res
         .status(403)
         .json({ message: "You can only update your own blogs" });
@@ -90,6 +97,7 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     const updatedBlog = {
       title: req.body.title || blog.title,
       content: req.body.content || blog.content,
+      category: req.body.category || blog.category,
     };
 
     // Update image if a new one is uploaded
@@ -119,7 +127,10 @@ router.delete("/:id", async (req, res) => {
     }
 
     // Check if the user is the author of the blog using author from request body
-    if (req.body.currentUserId && blog.author.toString() !== req.body.currentUserId) {
+    if (
+      req.body.currentUserId &&
+      blog.author.toString() !== req.body.currentUserId
+    ) {
       return res
         .status(403)
         .json({ message: "You can only delete your own blogs" });

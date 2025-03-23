@@ -9,7 +9,19 @@ const commentRoutes = require("./routes/comments");
 dotenv.config();
 const app = express();
 
-app.use(cors());
+const FRONTEND_URL = "http://localhost:5173";
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", true);
+  next();
+});
+
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
