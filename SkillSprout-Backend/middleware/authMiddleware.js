@@ -5,7 +5,7 @@ dotenv.config();
 
 module.exports = function (req, res, next) {
     const authHeader = req.header("Authorization");
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader || !authHeader.startsWith("Bearer")) {
         return res.status(401).json({ error: "Access Denied. No token provided!" });
     }
 
