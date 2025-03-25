@@ -1,0 +1,13 @@
+.write-icon {
+  background: white;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.write-icon > img {
+  width: 40px;
+  height: 40px;
+}

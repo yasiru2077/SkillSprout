@@ -61,11 +61,17 @@ router.post("/login", async (req, res) => {
     if (!user) return res.status(404).json({ error: "User not found!" });
 
     // Validate password
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (!validPassword) return res.status(400).json({ error: "Invalid credentials!" });
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!validPassword)
+      return res.status(400).json({ error: "Invalid credentials!" });
 
     // Generate JWT token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     res.json({ message: "Login successful!", user, token });
   } catch (err) {
@@ -75,3 +81,18 @@ router.post("/login", async (req, res) => {
 });
 
 module.exports = router;
+
+router.post("/logout", async (req, res) => {
+  try {
+    res
+      .clearCookie("accessToken", {
+        secure: true,
+        sameSite: "none",
+      })
+      .status(200)
+      .json("User has been logged out");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});

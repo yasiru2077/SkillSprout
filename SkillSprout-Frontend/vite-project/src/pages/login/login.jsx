@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Login() {
+function Login({ setIsAuthenticated, setUserDetails }) {
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
@@ -32,8 +32,15 @@ function Login() {
 
       const userData = response.data;
 
+      setUserDetails({
+        id: userData.id,
+        username: userData.username,
+        email: userData.email,
+      });
+      setIsAuthenticated(true);
       console.log(userData);
-
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("userDetails", JSON.stringify(userData));
       navigate("/");
     } catch (error) {
       setError(error.response.data || "An error occurred");
