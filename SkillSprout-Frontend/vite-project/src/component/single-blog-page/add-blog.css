@@ -1,103 +1,153 @@
 .add-blog {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 300px;
-    padding: 20px;
-  }
-  
-  .file-upload-container {
-    width: 100%;
-    max-width: 500px;
-  }
-  
-  .file-drop-zone {
-    border: 2px dashed #cbd5e1;
-    border-radius: 10px;
-    padding: 30px;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-  }
-  
-  .file-drop-zone.drag-active {
-    border-color: #3b82f6;
-    background-color: #f0f9ff;
-  }
-  
-  .file-drop-zone:hover {
-    border-color: #3b82f6;
-    background-color: #f0f9ff;
-  }
-  
-  .file-input {
-    display: none;
-  }
-  
-  .drop-zone-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .upload-icon {
-    color: #6b7280;
-    width: 50px;
-    height: 50px;
-  }
-  
-  .drop-zone-content p {
-    color: #4b5563;
-    font-size: 16px;
-  }
-  
-  .browse-button {
-    background-color: #3b82f6;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .browse-button:hover {
-    background-color: #2563eb;
-  }
-  
-  .file-preview {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f0f9ff;
-    padding: 10px 15px;
-    border-radius: 6px;
-  }
-  
-  .file-info {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 5px;
-  }
-  
-  .file-size {
-    color: #6b7280;
-    font-size: 0.8rem;
-  }
-  
-  .remove-file-btn {
-    background: none;
-    border: none;
-    color: #ef4444;
-    cursor: pointer;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .remove-file-btn:hover {
-    background-color: #fee2e2;
-    border-radius: 50%;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 20px;
+}
+
+.file-upload-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+.file-drop-zone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.file-drop-zone.drag-active {
+  border-color: #3b82f6;
+  background-color: #f0f9ff;
+}
+
+.file-drop-zone:hover {
+  border-color: #3b82f6;
+  background-color: #f0f9ff;
+}
+
+.file-input {
+  display: none;
+}
+
+.drop-zone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.upload-icon {
+  color: #6b7280;
+  width: 50px;
+  height: 50px;
+}
+
+.drop-zone-content p {
+  color: #4b5563;
+  font-size: 16px;
+}
+
+.browse-button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.browse-button:hover {
+  background-color: #2563eb;
+}
+
+.file-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f9ff;
+  padding: 10px 15px;
+  border-radius: 6px;
+}
+
+.file-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 5px;
+}
+
+.file-size {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.remove-file-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-file-btn:hover {
+  background-color: #fee2e2;
+  border-radius: 50%;
+}
+
+.blog-form-container {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.form-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.submit-button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #2563eb;
+}

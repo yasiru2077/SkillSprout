@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./main-navbar.css";
 const imagePath = "http://localhost:5000/";
 
@@ -36,7 +36,9 @@ function MainNavigation({ userDetails }) {
             <h1>SKILLSPROUT</h1>
           </div>
           <div className="nav-content">
-            <li>Blog</li>
+            <li>
+              <Link to={`/`}>Blog</Link>
+            </li>
             <li>About</li>
             <li>Privacy Policy</li>
           </div>

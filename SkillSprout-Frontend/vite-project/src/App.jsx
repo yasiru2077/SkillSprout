@@ -54,7 +54,7 @@ function App() {
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route element={<Layout userDetails={userDetails} />}>
             <Route path="/" element={<BlogHomePage />} />
-            <Route path="/SingleBlogPage" element={<SingleBlogPage />} />
+            <Route path="/SingleBlogPage" element={<SingleBlogPage userDetails={userDetails}/>} />
           </Route>
         </Route>
       </Routes>
