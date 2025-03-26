@@ -39,8 +39,12 @@ function MainNavigation({ userDetails }) {
             <li>
               <Link to={`/`}>Blog</Link>
             </li>
-            <li>About</li>
-            <li>Privacy Policy</li>
+            <li>
+              <Link to={`/about`}>About</Link>
+            </li>
+            <li>
+              <Link to={`/Privacy`}>Personal Blogs</Link>
+            </li>
           </div>
           <div className="personal-functions">
             <img src={`${imagePath}${user.profilePic}`} alt="" />

@@ -3,7 +3,7 @@ import WriteIcon from "../../component/write-icon/write";
 
 function BlogHomePage() {
   const [blogs, setBlogs] = useState([]);
-  const [error, setError] = useState(null); // Add error state
+  const [error, setError] = useState(null);
 
   const imagePath = "http://localhost:5000/";
 
@@ -36,11 +36,11 @@ function BlogHomePage() {
         <WriteIcon />
         <div>
           {blogs.map((blog) => (
-            <div key={blog.id}>
+            <div key={blog._id}>
               <h1>{blog.title}</h1>
               <img
                 src={`${imagePath}${blog.image}`}
-                alt={`Blog image for ${blog.id}`}
+                alt={`Blog image for ${blog._id}`}
               />
               <p>{blog.content}</p>
             </div>

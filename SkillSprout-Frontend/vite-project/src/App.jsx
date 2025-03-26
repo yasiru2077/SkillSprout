@@ -13,6 +13,8 @@ import BlogHomePage from "./pages/blog-Home/blog-Home";
 import Layout from "./component/layout.jsx";
 import Login from "./pages/login/login.jsx";
 import SingleBlogPage from "./component/single-blog-page/single-blog-page.jsx";
+import About from "./pages/about.jsx";
+import PersonalBlogs from "./pages/personal-blogs/personal-blogs.jsx";
 
 const ProtectedRoute = ({ isAuthenticated }) => {
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
@@ -53,8 +55,16 @@ function App() {
         />
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route element={<Layout userDetails={userDetails} />}>
+            <Route
+              path="/Privacy"
+              element={<PersonalBlogs userDetails={userDetails} />}
+            />
             <Route path="/" element={<BlogHomePage />} />
-            <Route path="/SingleBlogPage" element={<SingleBlogPage userDetails={userDetails}/>} />
+            <Route path="/about" element={<About />} />
+            <Route
+              path="/SingleBlogPage"
+              element={<SingleBlogPage userDetails={userDetails} />}
+            />
           </Route>
         </Route>
       </Routes>
