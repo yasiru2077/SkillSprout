@@ -7,7 +7,7 @@ function WriteIcon() {
   const navigate = useNavigate();
 
   const handleOnClick = () => {
-    navigate("/SingleBlogPage");
+    navigate("/AddBlogPage");
   };
 
   return (

@@ -15,6 +15,8 @@ import Login from "./pages/login/login.jsx";
 import SingleBlogPage from "./component/single-blog-page/single-blog-page.jsx";
 import About from "./pages/about.jsx";
 import PersonalBlogs from "./pages/personal-blogs/personal-blogs.jsx";
+import AddBlogPage from "./component/single-blog-page/single-blog-page.jsx";
+import BlogSinglePage from "./pages/blog-single-page/blog-single-page.jsx";
 
 const ProtectedRoute = ({ isAuthenticated }) => {
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
@@ -62,8 +64,12 @@ function App() {
             <Route path="/" element={<BlogHomePage />} />
             <Route path="/about" element={<About />} />
             <Route
-              path="/SingleBlogPage"
-              element={<SingleBlogPage userDetails={userDetails} />}
+              path="/AddBlogPage"
+              element={<AddBlogPage userDetails={userDetails} />}
+            />{" "}
+            <Route
+              path={"/BlogSinglePage/:id"}
+              element={<BlogSinglePage userDetails={userDetails} />}
             />
           </Route>
         </Route>

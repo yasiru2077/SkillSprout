@@ -3,7 +3,7 @@ import { Upload, X } from "lucide-react";
 import axios from "axios";
 import "./add-blog.css";
 
-function SingleBlogPage({ userDetails }) {
+function AddBlogPage({ userDetails }) {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -170,4 +170,4 @@ function SingleBlogPage({ userDetails }) {
   );
 }
 
-export default SingleBlogPage;
+export default AddBlogPage;

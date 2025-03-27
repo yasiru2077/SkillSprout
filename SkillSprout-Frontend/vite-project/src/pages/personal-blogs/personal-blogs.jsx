@@ -6,13 +6,15 @@ function PersonalBlogs({ userDetails }) {
   const [personalBlogs, setPersonalBlogs] = useState([]);
   const [error, setError] = useState(null);
   const [openModel, setOpenModel] = useState(false);
-  const [wordCount, setWordCount] = useState([]);
-
-  console.log(wordCount);
+  const [blogToEdit, setBlogToEdit] = useState(null);
 
   const imagePath = "http://localhost:5000/";
 
   useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  const fetchBlogs = () => {
     fetch("http://localhost:5000/api/blogs", {
       method: "GET",
       credentials: "include",
@@ -23,20 +25,9 @@ function PersonalBlogs({ userDetails }) {
         }
 
         const data = await response.json();
-
         const personalData = data.filter(
           (blog) => blog.author._id === userDetails.user._id
         );
-
-        const content = data.map((d) => d.content.length);
-
-        setWordCount(content);
-
-        console.log("content", content);
-
-        console.log("pD:", personalData);
-
-        console.log("blog:", data);
 
         setPersonalBlogs(data);
       })
@@ -44,34 +35,100 @@ function PersonalBlogs({ userDetails }) {
         console.error("Fetch error:", error);
         setError(error.message);
       });
-  }, []);
+  };
 
-  const modelState = () => {
-    setOpenModel(!openModel);
+  const handleEditBlog = (blog) => {
+    const goToTop = document.getElementById("model-scroll");
+    setBlogToEdit(blog);
+    setOpenModel(true);
+
+    goToTop.scrollIntoView();
+  };
+
+  const handleCloseModal = () => {
+    setOpenModel(false);
+    setBlogToEdit(null);
+  };
+
+  const handleUpdateSuccess = (updatedBlog) => {
+    // Update the blog in the list
+    const updatedBlogs = personalBlogs.map((blog) =>
+      blog._id === updatedBlog._id ? updatedBlog : blog
+    );
+    setPersonalBlogs(updatedBlogs);
+  };
+
+  const handleDeleteBlog = async (blogId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/blogs/${blogId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ currentUserId: userDetails.user._id }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status:${response.status}`);
+      }
+
+      // Remove the deleted blog from the list
+      const updatedBlogs = personalBlogs.filter((blog) => blog._id !== blogId);
+      setPersonalBlogs(updatedBlogs);
+      alert("Blog deleted successfully!");
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("Failed to delete blog. Try again.");
+    }
   };
 
   return (
-    <main>
+    <main id="model-scroll">
       <section>
-        <div className={`${openModel ? "edit-model-container" : ""}`}>
-          {openModel && <EditPersonalBlog />}
+        <div
+          id="model-scroll"
+          className={`${openModel ? "edit-model-container" : ""}`}
+        >
+          {openModel && (
+            <EditPersonalBlog
+              blogToEdit={blogToEdit}
+              userDetails={userDetails}
+              onClose={handleCloseModal}
+              onUpdateSuccess={handleUpdateSuccess}
+            />
+          )}
         </div>
-        <div className={`${openModel ? "personal-blogs" : ""}`}>
+        <div
+          className={`${
+            openModel ? "personal-blogs blurred" : "personal-blogs"
+          }`}
+        >
           {personalBlogs.map((p) => (
-            <div key={p._id}>
+            <div key={p._id} className="blog-item">
               <h1>{p.title}</h1>
-              {/* <img
-                src={`${imagePath}${p.image}`}
-                alt={`Blog image for ${p.title}`}
-
-              /> */}
+              {p.image && (
+                <img
+                  src={`${imagePath}${p.image}`}
+                  alt={`Blog image for ${p.title}`}
+                  className="blog-image"
+                />
+              )}
               <p>{p.content}</p>
-              <div>
-                <p>{new Date(p.updatedAt).toLocaleString()}</p>
-                
+              <div className="blog-metadata">
+                <p>
+                  Last updated: {new Date(p.updatedAt).toLocaleString()}
+                  <span> | </span>
+                  Word count: {p.content.length}
+                </p>
               </div>
-              <button onClick={modelState}>Edit</button>
-              <button>Delete</button>
+              <div className="blog-actions">
+                <button onClick={() => handleEditBlog(p)}>Edit</button>
+                <button onClick={() => handleDeleteBlog(p._id)}>Delete</button>
+              </div>
             </div>
           ))}
         </div>
