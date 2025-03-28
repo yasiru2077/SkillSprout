@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ChevronDown, Edit, Trash2 } from "lucide-react";
 import EditPersonalBlog from "../../component/single-blog-page/edit-personal-blog";
 import "./personal.css";
 
@@ -8,11 +9,22 @@ function PersonalBlogs({ userDetails }) {
   const [openModel, setOpenModel] = useState(false);
   const [blogToEdit, setBlogToEdit] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
   const imagePath = "http://localhost:5000/";
 
   useEffect(() => {
     fetchBlogs();
+    // Add event listener to close dropdown when clicking outside
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".blog-metadata-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const fetchBlogs = () => {
@@ -26,7 +38,6 @@ function PersonalBlogs({ userDetails }) {
         }
 
         const data = await response.json();
-        // Filter blogs where the author's ID matches the current user's ID
         const personalData = data.filter(
           (blog) => blog.author._id === userDetails.id
         );
@@ -44,7 +55,7 @@ function PersonalBlogs({ userDetails }) {
     const goToTop = document.getElementById("model-scroll");
     setBlogToEdit(blog);
     setOpenModel(true);
-
+    setOpenDropdownId(null);
     goToTop.scrollIntoView();
   };
 
@@ -54,7 +65,6 @@ function PersonalBlogs({ userDetails }) {
   };
 
   const handleUpdateSuccess = (updatedBlog) => {
-    // Update the blog in the list
     const updatedBlogs = personalBlogs.map((blog) =>
       blog._id === updatedBlog._id ? updatedBlog : blog
     );
@@ -79,14 +89,18 @@ function PersonalBlogs({ userDetails }) {
         throw new Error(`HTTP error! Status:${response.status}`);
       }
 
-      // Remove the deleted blog from the list
       const updatedBlogs = personalBlogs.filter((blog) => blog._id !== blogId);
       setPersonalBlogs(updatedBlogs);
+      setOpenDropdownId(null);
       alert("Blog deleted successfully!");
     } catch (error) {
       console.error("Delete error:", error);
       alert("Failed to delete blog. Try again.");
     }
+  };
+
+  const toggleDropdown = (blogId) => {
+    setOpenDropdownId(openDropdownId === blogId ? null : blogId);
   };
 
   if (loading) {
@@ -96,10 +110,7 @@ function PersonalBlogs({ userDetails }) {
   return (
     <main id="model-scroll">
       <section>
-        <div
-          id="model-scroll"
-          className={`${openModel ? "edit-model-container" : ""}`}
-        >
+        <div className={`${openModel ? "edit-model-container" : ""}`}>
           {openModel && (
             <EditPersonalBlog
               blogToEdit={blogToEdit}
@@ -109,37 +120,77 @@ function PersonalBlogs({ userDetails }) {
             />
           )}
         </div>
+        <div className="greeting personal-page-container">
+          <div className="greeting-container-1">
+            <img
+              src={`${imagePath}${userDetails.profilePic}`}
+              alt={`profile picture user`}
+              className="profile-pic"
+            />
+          </div>
+          <div className="greeting-container-2">
+            <h1>
+              Hey welcome back {userDetails.username}! This is your sanctuary of
+              stories,
+            </h1>
+            <p>
+              Your voice matters. Each post, a unique perspective shared with
+              the world. Don't let your stories fade. Write on, explore, and
+              connect. Your words have the power to inspire, comfort, and ignite
+              change. Keep sharing your journey.
+            </p>
+            <div>
+              <p>Your Topics,</p>
+              <div className="c-list">
+                {personalBlogs.map((p) => (
+                  <p key={p._id}>{p.category}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
         <div
-          className={`${
+          className={`personal-page-container ${
             openModel ? "personal-blogs blurred" : "personal-blogs"
           }`}
         >
+          <h2>My Stories</h2>
           {personalBlogs.length === 0 ? (
             <p>No blogs found. Start writing your first blog!</p>
           ) : (
             personalBlogs.map((p) => (
               <div key={p._id} className="blog-item">
-                <h1>{p.title}</h1>
-                {p.image && (
-                  <img
-                    src={`${imagePath}${p.image}`}
-                    alt={`Blog image for ${p.title}`}
-                    className="blog-image"
-                  />
-                )}
+                <h2>{p.title}</h2>
                 <p>{p.content}</p>
                 <div className="blog-metadata">
                   <p>
                     Last updated: {new Date(p.updatedAt).toLocaleString()}
                     <span> | </span>
                     Word count: {p.content.length}
+                    <span className="blog-metadata-dropdown">
+                      <ChevronDown
+                        onClick={() => toggleDropdown(p._id)}
+                        style={{ cursor: "pointer", marginLeft: "5px" }}
+                        size={16}
+                      />
+                      {openDropdownId === p._id && (
+                        <div className="dropdown-menu">
+                          <div
+                            className="dropdown-item"
+                            onClick={() => handleEditBlog(p)}
+                          >
+                            <Edit size={16} /> Edit
+                          </div>
+                          <div
+                            className="dropdown-item"
+                            onClick={() => handleDeleteBlog(p._id)}
+                          >
+                            <Trash2 size={16} /> Delete
+                          </div>
+                        </div>
+                      )}
+                    </span>
                   </p>
-                </div>
-                <div className="blog-actions">
-                  <button onClick={() => handleEditBlog(p)}>Edit</button>
-                  <button onClick={() => handleDeleteBlog(p._id)}>
-                    Delete
-                  </button>
                 </div>
               </div>
             ))
