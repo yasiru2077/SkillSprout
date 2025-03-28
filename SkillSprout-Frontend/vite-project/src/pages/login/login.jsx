@@ -31,14 +31,16 @@ function Login({ setIsAuthenticated, setUserDetails }) {
       );
 
       const userData = response.data;
+      console.log("hey:", userData.user);
 
       setUserDetails({
-        id: userData.id,
-        username: userData.username,
-        email: userData.email,
+        id: userData.user._id,
+        username: userData.user.username,
+        email: userData.user.email,
+        profilePic: userData.user.profilePic,
       });
       setIsAuthenticated(true);
-      console.log(userData);
+      console.log("deatils:", userData);
       localStorage.setItem("isAuthenticated", "true");
       localStorage.setItem("userDetails", JSON.stringify(userData));
       navigate("/");

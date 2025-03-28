@@ -50,7 +50,7 @@ function CommentSection({ userDetails }) {
         body: JSON.stringify({
           text: newCommentText,
           blogId: blogId,
-          author: userDetails.user._id, // Assuming you have user ID
+          author: userDetails.id, // Assuming you have user ID
         }),
       });
 
@@ -79,7 +79,7 @@ function CommentSection({ userDetails }) {
           },
           body: JSON.stringify({
             text: editingComment.text,
-            currentUserId: userDetails.user._id,
+            currentUserId: userDetails.id,
           }),
         }
       );
@@ -112,7 +112,7 @@ function CommentSection({ userDetails }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            currentUserId: userDetails.user._id,
+            currentUserId: userDetails.id,
           }),
         }
       );
@@ -172,7 +172,7 @@ function CommentSection({ userDetails }) {
                 <p>{comment.text}</p>
                 <div className="comment-meta">
                   <span>By {comment.author.username}</span>
-                  {userDetails.user._id === comment.author._id && (
+                  {userDetails.id === comment.author._id && (
                     <div className="comment-actions">
                       <button onClick={() => setEditingComment(comment)}>
                         Edit

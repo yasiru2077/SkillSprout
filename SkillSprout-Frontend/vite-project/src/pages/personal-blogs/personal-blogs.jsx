@@ -7,6 +7,7 @@ function PersonalBlogs({ userDetails }) {
   const [error, setError] = useState(null);
   const [openModel, setOpenModel] = useState(false);
   const [blogToEdit, setBlogToEdit] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const imagePath = "http://localhost:5000/";
 
@@ -25,11 +26,13 @@ function PersonalBlogs({ userDetails }) {
         }
 
         const data = await response.json();
+        // Filter blogs where the author's ID matches the current user's ID
         const personalData = data.filter(
-          (blog) => blog.author._id === userDetails.user._id
+          (blog) => blog.author._id === userDetails.id
         );
 
-        setPersonalBlogs(data);
+        setPersonalBlogs(personalData);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Fetch error:", error);
@@ -68,7 +71,7 @@ function PersonalBlogs({ userDetails }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ currentUserId: userDetails.user._id }),
+          body: JSON.stringify({ currentUserId: userDetails.id }),
         }
       );
 
@@ -85,6 +88,10 @@ function PersonalBlogs({ userDetails }) {
       alert("Failed to delete blog. Try again.");
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <main id="model-scroll">
@@ -107,30 +114,36 @@ function PersonalBlogs({ userDetails }) {
             openModel ? "personal-blogs blurred" : "personal-blogs"
           }`}
         >
-          {personalBlogs.map((p) => (
-            <div key={p._id} className="blog-item">
-              <h1>{p.title}</h1>
-              {p.image && (
-                <img
-                  src={`${imagePath}${p.image}`}
-                  alt={`Blog image for ${p.title}`}
-                  className="blog-image"
-                />
-              )}
-              <p>{p.content}</p>
-              <div className="blog-metadata">
-                <p>
-                  Last updated: {new Date(p.updatedAt).toLocaleString()}
-                  <span> | </span>
-                  Word count: {p.content.length}
-                </p>
+          {personalBlogs.length === 0 ? (
+            <p>No blogs found. Start writing your first blog!</p>
+          ) : (
+            personalBlogs.map((p) => (
+              <div key={p._id} className="blog-item">
+                <h1>{p.title}</h1>
+                {p.image && (
+                  <img
+                    src={`${imagePath}${p.image}`}
+                    alt={`Blog image for ${p.title}`}
+                    className="blog-image"
+                  />
+                )}
+                <p>{p.content}</p>
+                <div className="blog-metadata">
+                  <p>
+                    Last updated: {new Date(p.updatedAt).toLocaleString()}
+                    <span> | </span>
+                    Word count: {p.content.length}
+                  </p>
+                </div>
+                <div className="blog-actions">
+                  <button onClick={() => handleEditBlog(p)}>Edit</button>
+                  <button onClick={() => handleDeleteBlog(p._id)}>
+                    Delete
+                  </button>
+                </div>
               </div>
-              <div className="blog-actions">
-                <button onClick={() => handleEditBlog(p)}>Edit</button>
-                <button onClick={() => handleDeleteBlog(p._id)}>Delete</button>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </section>
     </main>

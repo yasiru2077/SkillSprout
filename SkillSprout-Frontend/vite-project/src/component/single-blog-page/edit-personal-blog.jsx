@@ -65,7 +65,7 @@ function EditPersonalBlog({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!userDetails || !userDetails.user || !userDetails.user._id) {
+    if (!userDetails || !userDetails.id) {
       alert("User details are missing. Please log in.");
       return;
     }
@@ -74,7 +74,7 @@ function EditPersonalBlog({
     submitData.append("title", formData.title);
     submitData.append("content", formData.content);
     submitData.append("category", formData.category);
-    submitData.append("currentUserId", userDetails.user._id);
+    submitData.append("currentUserId", userDetails.id);
 
     // Add image if a new file is selected or keep existing image
     if (formData.selectedFile) {

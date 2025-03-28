@@ -44,10 +44,10 @@ function AddBlogPage({ userDetails }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!userDetails || !userDetails.user || !userDetails.user._id) {
+    if (!userDetails || !userDetails.id) {
       console.log(userDetails);
-      console.log(userDetails.user);
-      console.log(userDetails.user._id);
+
+      console.log(userDetails.id);
 
       console.log("User details are missing. Please log in.");
       return;
@@ -57,7 +57,7 @@ function AddBlogPage({ userDetails }) {
     submitData.append("title", formData.title);
     submitData.append("content", formData.content);
     submitData.append("category", formData.category);
-    submitData.append("author", userDetails.user._id);
+    submitData.append("author", userDetails.id);
     if (formData.selectedFile) {
       submitData.append("image", formData.selectedFile);
     }

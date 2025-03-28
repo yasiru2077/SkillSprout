@@ -2,11 +2,24 @@
   display: flex;
   gap: 20px;
   justify-content: space-between;
+  background-color: white;
+  padding: 10px;
+  border-bottom: 1px solid #F2F2F2;
 }
 
 .nav > .logo > h1 {
   font-size: 24px;
   font-weight: 800;
+  padding: 0;
+  margin: 0;
+}
+
+.nav > .logo > h1 > span {
+  font-size: 40px;
+  color: black;
+  padding: 0 2px 0 0;
+  /* -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black; */
 }
 
 .nav > div {
@@ -19,13 +32,17 @@
 .personal-functions > h2 {
   font-size: 18px;
   font-weight: 500;
+  padding: 0;
+  margin: 0;
 }
 
 .personal-functions > img {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 100%;
   object-fit: cover;
+  border: 2px solid black;
+  padding: 2px;
 }
 
 .nav-content {
@@ -40,4 +57,63 @@
 .nav-content > li > a {
   text-decoration: none;
   color: black;
+}
+
+/* .logout {
+  padding: 10px 20px;
+  font-weight: 600;
+} */
+
+.logout {
+  background: black;
+  color: white;
+  font-family: inherit;
+  padding: 0.35em;
+  padding-left: 1.2em;
+  font-size: 17px;
+  font-weight: 500;
+  /* border-radius: ; */
+  border: none;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 1.6em -0.6em #714da6;
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  padding-right: 3.3em;
+  cursor: pointer;
+}
+
+.logout .icon {
+  background: white;
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2.2em;
+  /* border-radius: 0; */
+  box-shadow: 0.1em 0.1em 0.6em 0.2em black;
+  right: 0.3em;
+  transition: all 0.3s;
+}
+
+.logout:hover .icon {
+  width: calc(100% - 0.6em);
+}
+
+.logout .icon svg {
+  width: 1.1em;
+  transition: transform 0.3s;
+  color: black;
+}
+
+.logout:hover .icon svg {
+  transform: translateX(0.1em);
+}
+
+.logout:active .icon {
+  transform: scale(0.95);
 }
