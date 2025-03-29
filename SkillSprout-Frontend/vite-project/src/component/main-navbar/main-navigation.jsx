@@ -1,7 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Menu, X, LogOut, User } from "lucide-react";
 import "./main-navbar.css";
+
 const imagePath = "http://localhost:5000/";
 
 function MainNavigation({ userDetails }) {
@@ -9,8 +11,10 @@ function MainNavigation({ userDetails }) {
     username: userDetails?.username || "",
     profilePic: userDetails?.profilePic || "",
   });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigate = useNavigate();
+
   const handleLogOut = async () => {
     try {
       await axios.post(
@@ -26,6 +30,28 @@ function MainNavigation({ userDetails }) {
     }
   };
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        mobileMenuOpen &&
+        !event.target.closest(".mobile-menu-container") &&
+        !event.target.closest(".hamburger-btn")
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <main>
       <section>
@@ -35,20 +61,23 @@ function MainNavigation({ userDetails }) {
               <span>.</span>SKILLSPROUT
             </h1>
           </div>
+
+          {/* Desktop Navigation */}
           <div className="nav-content">
             <li>
-              <Link to={`/`}>Blog</Link>
+              <Link to="/">Blog</Link>
+            </li>
+
+            <li>
+              <Link to="/Privacy">Personal Blogs</Link>
             </li>
             <li>
-              <Link to={`/about`}>About</Link>
-            </li>
-            <li>
-              <Link to={`/Privacy`}>Personal Blogs</Link>
+              <Link to="/AddBlogPage">Write</Link>
             </li>
           </div>
+
           <div className="personal-functions">
             <img src={`${imagePath}${user.profilePic}`} alt="Profile" />
-            {/* <h2>{user.username}</h2> */}
             <button className="logout" onClick={handleLogOut}>
               Logout
               <div className="icon">
@@ -66,6 +95,43 @@ function MainNavigation({ userDetails }) {
                 </svg>
               </div>
             </button>
+          </div>
+
+          {/* Hamburger Menu Button */}
+          <button className="hamburger-btn" onClick={toggleMobileMenu}>
+            {mobileMenuOpen ? (
+              <X size={28} color="white" className="menu-icon close-icon" />
+            ) : (
+              <Menu size={28} color="white" className="menu-icon" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={`mobile-menu-container ${mobileMenuOpen ? "open" : ""}`}
+        >
+          <div className="mobile-menu">
+            <div className="mobile-menu-header">
+              <img src={`${imagePath}${user.profilePic}`} alt="Profile" />
+              <h3>{user.username || "User"}</h3>
+            </div>
+            <div className="mobile-menu-items">
+              <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+                Blog
+              </Link>
+              <Link to="/about" onClick={() => setMobileMenuOpen(false)}>
+                About
+              </Link>
+              <Link to="/Privacy" onClick={() => setMobileMenuOpen(false)}>
+                Personal Blogs
+              </Link>
+
+              <button className="mobile-logout" onClick={handleLogOut}>
+                <LogOut size={18} />
+                <span>Logout</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>

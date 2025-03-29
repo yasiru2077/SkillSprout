@@ -120,33 +120,41 @@ function PersonalBlogs({ userDetails }) {
             />
           )}
         </div>
-        <div className="greeting personal-page-container">
-          <div className="greeting-container-1">
-            <img
-              src={`${imagePath}${userDetails.profilePic}`}
-              alt={`profile picture user`}
-              className="profile-pic"
-            />
-          </div>
-          <div className="greeting-container-2">
-            <h1>
-              Hey welcome back {userDetails.username}! This is your sanctuary of
-              stories,
-            </h1>
-            <p>
-              Your voice matters. Each post, a unique perspective shared with
-              the world. Don't let your stories fade. Write on, explore, and
-              connect. Your words have the power to inspire, comfort, and ignite
-              change. Keep sharing your journey.
-            </p>
-            <div>
-              <p>Your Topics,</p>
-              <div className="c-list">
-                {personalBlogs.map((p) => (
-                  <p key={p._id}>{p.category}</p>
-                ))}
+        <div className="personal-info">
+          <div className="greeting personal-page-container">
+            <div className="greeting-container-1">
+              <img
+                src={`${imagePath}${userDetails.profilePic}`}
+                alt={`profile picture user`}
+                className="profile-pic"
+              />
+            </div>
+            <div className="greeting-container-2">
+              <h1>
+                Hey welcome back {userDetails.username}! This is your sanctuary
+                of stories,
+              </h1>
+              <p>
+                Your voice matters. Each post, a unique perspective shared with
+                the world. Don't let your stories fade. Write on, explore, and
+                connect. Your words have the power to inspire, comfort, and
+                ignite change. Keep sharing your journey.
+              </p>
+              <div>
+                <p>Your Topics,</p>
+                <div className="c-list">
+                  {[...new Set(personalBlogs.map((p) => p.category))].map(
+                    (category) => (
+                      <p key={category}>{category}</p>
+                    )
+                  )}
+                </div>
               </div>
             </div>
+          </div>
+          <div className="color-lines">
+            <div className="color-line-1"></div>
+            <div className="color-line-2"></div>
           </div>
         </div>
         <div
@@ -165,7 +173,7 @@ function PersonalBlogs({ userDetails }) {
                 <div className="blog-metadata">
                   <p>
                     Last updated: {new Date(p.updatedAt).toLocaleString()}
-                    <span> | </span>
+                    <span> </span>
                     Word count: {p.content.length}
                     <span className="blog-metadata-dropdown">
                       <ChevronDown

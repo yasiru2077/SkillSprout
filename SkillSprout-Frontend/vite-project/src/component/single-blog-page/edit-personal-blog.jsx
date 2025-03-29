@@ -103,39 +103,39 @@ function EditPersonalBlog({
 
   return (
     <div className="edit-personal-blog">
-      <form onSubmit={handleSubmit} className="blog-form-container">
+      <form onSubmit={handleSubmit} className="edit-blog-form-container">
         <button type="button" className="close-modal-btn" onClick={onClose}>
           <X size={24} />
         </button>
 
-        <div className="form-group">
-          <label>Title</label>
+        <div className="edit-form-group">
           <input
             type="text"
             name="title"
             value={formData.title}
             onChange={handleInputChange}
+            placeholder="Title"
             required
           />
         </div>
 
-        <div className="form-group">
-          <label>Content</label>
+        <div className="edit-form-group">
           <textarea
             name="content"
             value={formData.content}
             onChange={handleInputChange}
+            placeholder="Content"
             required
           ></textarea>
         </div>
 
-        <div className="form-group">
-          <label>Category</label>
+        <div className="edit-form-group">
           <input
             type="text"
             name="category"
             value={formData.category}
             onChange={handleInputChange}
+            placeholder="Category"
           />
         </div>
 
