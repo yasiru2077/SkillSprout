@@ -11,6 +11,28 @@ function AddBlogPage({ userDetails }) {
     selectedFile: null,
   });
 
+  // const autoTextarea = document.querySelector(".auto-expanding-textarea");
+
+  // function autoResize(textarea) {
+  //   // Reset height to get the correct scrollHeight
+  //   textarea.style.height = "auto";
+  //   // Set height to match content
+  //   textarea.style.height = textarea.scrollHeight + "px";
+  // }
+
+  // autoResize(autoTextarea);
+
+  // autoTextarea.addEventListener("input", () => {
+  //   autoResize(autoTextarea);
+  // });
+
+  // autoTextarea.addEventListener("paste", () => {
+  //   // Use setTimeout to ensure the pasted content is in the textarea
+  //   setTimeout(() => {
+  //     autoResize(autoTextarea);
+  //   }, 0);
+  // });
+
   const fileInputRef = useRef(null);
 
   const handleInputChange = (e) => {
@@ -92,33 +114,34 @@ function AddBlogPage({ userDetails }) {
       <section className="file-upload-container">
         <form onSubmit={handleSubmit} className="blog-form-container">
           <div className="form-group">
-            <label>Title</label>
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleInputChange}
+              placeholder="Title"
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Content</label>
             <textarea
               name="content"
+              className="auto-expanding-textarea"
               value={formData.content}
               onChange={handleInputChange}
+              placeholder="Content"
               required
             ></textarea>
           </div>
 
           <div className="form-group">
-            <label>Category</label>
             <input
               type="text"
               name="category"
               value={formData.category}
               onChange={handleInputChange}
+              placeholder="Category"
             />
           </div>
 
