@@ -42,7 +42,8 @@ function BlogHomePage() {
   return (
     <main className="all-blogs">
       <section>
-        <WriteIcon />
+        {/* <WriteIcon /> */}
+        <h1>All posts</h1>
         <div>
           {blogs.map((blog) => (
             <div
@@ -51,12 +52,17 @@ function BlogHomePage() {
                 handleSingle(blog._id);
               }}
             >
-              <h1>{blog.title}</h1>
-              <img
-                src={`${imagePath}${blog.image}`}
-                alt={`Blog image for ${blog._id}`}
-              />
-              <p>{blog.content}</p>
+              <div>
+                <img
+                  src={`${imagePath}${blog.image}`}
+                  alt={`Blog image for ${blog._id}`}
+                />
+              </div>
+              <div className="blog-desc">
+                <h3>{blog.category}</h3>
+                <h2>{blog.title}</h2>
+                <p>{blog.content}</p>
+              </div>
             </div>
           ))}
         </div>

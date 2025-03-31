@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CommentSection from "../../component/comment-section/comment-section";
+import "./blog-single-page.css";
 
 function BlogSinglePage({ userDetails }) {
   const { id } = useParams();
   const [singleBlog, setSingleBlog] = useState([]);
-
-  console.log(singleBlog);
 
   const imagePath = "http://localhost:5000/";
 
@@ -33,15 +32,23 @@ function BlogSinglePage({ userDetails }) {
 
   return (
     <main>
-      <section>
-        <div>
-          <h1>{singleBlog.title}</h1>
+      <section className="single-blog-page">
+        <div className="single-blog-container-1">
+          <div>
+            <h1>{singleBlog.author?.username}</h1>
+            <h2>Posted on {new Date(singleBlog.updatedAt).toDateString()}</h2>
+          </div>
+          <h3>{singleBlog.title}</h3>
+          <p>✧ {singleBlog.category}</p>
+        </div>
+        <div className="single-blog-container-2">
           <img src={`${imagePath}${singleBlog.image}`} alt="" />
           <p>{singleBlog.content}</p>
         </div>
       </section>
-
-      {userDetails && <CommentSection userDetails={userDetails} />}
+      <section className="comment-section">
+        {userDetails && <CommentSection userDetails={userDetails} />}
+      </section>
     </main>
   );
 }

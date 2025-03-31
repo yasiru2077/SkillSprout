@@ -11,27 +11,27 @@ function AddBlogPage({ userDetails }) {
     selectedFile: null,
   });
 
-  // const autoTextarea = document.querySelector(".auto-expanding-textarea");
+  const autoTextarea = document.querySelector(".auto-expanding-textarea");
 
-  // function autoResize(textarea) {
-  //   // Reset height to get the correct scrollHeight
-  //   textarea.style.height = "auto";
-  //   // Set height to match content
-  //   textarea.style.height = textarea.scrollHeight + "px";
-  // }
+  // Only proceed if the element exists
+  if (autoTextarea) {
+    function autoResize(textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
 
-  // autoResize(autoTextarea);
+    autoResize(autoTextarea);
 
-  // autoTextarea.addEventListener("input", () => {
-  //   autoResize(autoTextarea);
-  // });
+    autoTextarea.addEventListener("input", () => {
+      autoResize(autoTextarea);
+    });
 
-  // autoTextarea.addEventListener("paste", () => {
-  //   // Use setTimeout to ensure the pasted content is in the textarea
-  //   setTimeout(() => {
-  //     autoResize(autoTextarea);
-  //   }, 0);
-  // });
+    autoTextarea.addEventListener("paste", () => {
+      setTimeout(() => {
+        autoResize(autoTextarea);
+      }, 0);
+    });
+  }
 
   const fileInputRef = useRef(null);
 
