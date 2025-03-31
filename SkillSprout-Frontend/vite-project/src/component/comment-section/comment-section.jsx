@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import "./comment-section.css";
 
 function CommentSection({ userDetails }) {
   const { id: blogId } = useParams();
   const [comments, setComments] = useState([]);
   const [newCommentText, setNewCommentText] = useState("");
   const [editingComment, setEditingComment] = useState(null);
+
+  const NumberOfComments = comments.length;
 
   // Fetch comments when component mounts or blog changes
   useEffect(() => {
@@ -129,8 +132,9 @@ function CommentSection({ userDetails }) {
 
   // Render the comment section
   return (
-    <section className="comment-section">
+    <section className="comment-section-container">
       {/* Comment Input Form */}
+      <h1>{NumberOfComments} Comments</h1>
       <form onSubmit={handleCreateComment} className="comment-form">
         <textarea
           value={newCommentText}
@@ -138,7 +142,9 @@ function CommentSection({ userDetails }) {
           placeholder="Write a comment..."
           rows="3"
         />
-        <button type="submit">Post Comment</button>
+        <div>
+          <button type="submit">Comment</button>
+        </div>
       </form>
 
       {/* Comments List */}
@@ -172,6 +178,9 @@ function CommentSection({ userDetails }) {
                 <p>{comment.text}</p>
                 <div className="comment-meta">
                   <span>By {comment.author.username}</span>
+                  <p className="posted-date">
+                    {new Date(comment.createdAt).toLocaleString()}
+                  </p>
                   {userDetails.id === comment.author._id && (
                     <div className="comment-actions">
                       <button onClick={() => setEditingComment(comment)}>
