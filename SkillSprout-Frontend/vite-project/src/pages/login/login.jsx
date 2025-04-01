@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../auth.css";
+import { User, Mail, Lock, Upload, LogIn, UserPlus } from "lucide-react";
 
 function Login({ setIsAuthenticated, setUserDetails }) {
   const [inputs, setInputs] = useState({
@@ -50,30 +52,47 @@ function Login({ setIsAuthenticated, setUserDetails }) {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          value={inputs.email}
-          onChange={handleChange}
-          required
-          autoComplete="new-email"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          value={inputs.password}
-          onChange={handleChange}
-          required
-          autoComplete="new-password"
-        />
+    <div className="auth-container">
+      <div className="auth-form-wrapper">
+        <h1 className="auth-title">Login</h1>
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              name="email"
+              value={inputs.email}
+              onChange={handleChange}
+              required
+              autoComplete="new-email"
+              className="form-input"
+            />
+          </div>
 
-        <button type="submit">login</button>
-        {error && <p>{error}</p>}
-      </form>
+          <div className="form-group">
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              name="password"
+              value={inputs.password}
+              onChange={handleChange}
+              required
+              autoComplete="new-password"
+              className="form-input"
+            />
+          </div>
+
+          <button type="submit" className="auth-button">
+            Login
+          </button>
+          {error && <p className="error-message">{error}</p>}
+        </form>
+        <h3>
+          Don't have an account? <Link to={`/register`}>Sign Up</Link>
+        </h3>
+      </div>
     </div>
   );
 }
