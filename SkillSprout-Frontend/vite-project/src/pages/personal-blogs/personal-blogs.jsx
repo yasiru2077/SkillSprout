@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ChevronDown, Edit, Trash2 } from "lucide-react";
 import EditPersonalBlog from "../../component/single-blog-page/edit-personal-blog";
 import "./personal.css";
+import { Link } from "react-router-dom";
 
 function PersonalBlogs({ userDetails }) {
   const [personalBlogs, setPersonalBlogs] = useState([]);
@@ -120,90 +121,96 @@ function PersonalBlogs({ userDetails }) {
             />
           )}
         </div>
-        <div className="personal-info">
-          <div className="greeting personal-page-container">
-            <div className="greeting-container-1">
-              <img
-                src={`${imagePath}${userDetails.profilePic}`}
-                alt={`profile picture user`}
-                className="profile-pic"
-              />
-            </div>
-            <div className="greeting-container-2">
-              <h1>
-                Hey welcome back {userDetails.username}! This is your sanctuary
-                of stories,
-              </h1>
-              <p>
-                Your voice matters. Each post, a unique perspective shared with
-                the world. Don't let your stories fade. Write on, explore, and
-                connect. Your words have the power to inspire, comfort, and
-                ignite change. Keep sharing your journey.
-              </p>
-              <div>
-                <p>Your Topics,</p>
-                <div className="c-list">
-                  {[...new Set(personalBlogs.map((p) => p.category))].map(
-                    (category) => (
-                      <p key={category}>{category}</p>
-                    )
-                  )}
+        {
+          !openModel &&
+          <div className="personal-info">
+            <div className="greeting personal-page-container">
+              <div className="greeting-container-1">
+                <img
+                  src={`${imagePath}${userDetails.profilePic}`}
+                  alt={`profile picture user`}
+                  className="profile-pic"
+                />
+              </div>
+              <div className="greeting-container-2">
+                <h1>
+                  Hey welcome back {userDetails.username}! This is your sanctuary
+                  of stories,
+                </h1>
+                <p>
+                  Your voice matters. Each post, a unique perspective shared with
+                  the world. Don't let your stories fade. Write on, explore, and
+                  connect. Your words have the power to inspire, comfort, and
+                  ignite change. Keep sharing your journey.
+                </p>
+                <div>
+                  <p>Your Topics,</p>
+                  <div className="c-list">
+                    {[...new Set(personalBlogs.map((p) => p.category))].map(
+                      (category) => (
+                        <p key={category}>{category}</p>
+                      )
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
+            <div className="color-lines">
+              <div className="color-line-1"></div>
+              <div className="color-line-2"></div>
+            </div>
           </div>
-          <div className="color-lines">
-            <div className="color-line-1"></div>
-            <div className="color-line-2"></div>
-          </div>
-        </div>
-        <div
-          className={`personal-page-container ${
-            openModel ? "personal-blogs blurred" : "personal-blogs"
-          }`}
-        >
-          <h2>My Stories</h2>
-          {personalBlogs.length === 0 ? (
-            <p>No blogs found. Start writing your first blog!</p>
-          ) : (
-            personalBlogs.map((p) => (
-              <div key={p._id} className="blog-item">
-                <h2>{p.title}</h2>
-                <p>{p.content}</p>
-                <div className="blog-metadata">
-                  <p>
-                    Last updated: {new Date(p.updatedAt).toLocaleString()}
-                    <span> </span>
-                    Word count: {p.content.length}
-                    <span className="blog-metadata-dropdown">
-                      <ChevronDown
-                        onClick={() => toggleDropdown(p._id)}
-                        style={{ cursor: "pointer", marginLeft: "5px" }}
-                        size={16}
-                      />
-                      {openDropdownId === p._id && (
-                        <div className="dropdown-menu">
-                          <div
-                            className="dropdown-item"
-                            onClick={() => handleEditBlog(p)}
-                          >
-                            <Edit size={16} /> Edit
+        }
+        
+        {
+          !openModel &&
+          <div
+            className={`personal-page-container ${openModel ? "personal-blogs blurred" : "personal-blogs"
+              }`}
+          >
+            <h2>My Stories</h2>
+            {personalBlogs.length === 0 ? (
+              <p>No blogs found.<Link to={`/AddBlogPage`}>Start writing your first blog!</Link></p>
+            ) : (
+              personalBlogs.map((p) => (
+                <div key={p._id} className="blog-item">
+                  <h2>{p.title}</h2>
+                  <p>{p.content}</p>
+                  <div className="blog-metadata">
+                    <p>
+                      Last updated: {new Date(p.updatedAt).toLocaleString()}
+                      <span> </span>
+                      Word count: {p.content.length}
+                      <span className="blog-metadata-dropdown">
+                        <ChevronDown
+                          onClick={() => toggleDropdown(p._id)}
+                          style={{ cursor: "pointer", marginLeft: "5px" }}
+                          size={16}
+                        />
+                        {openDropdownId === p._id && (
+                          <div className="dropdown-menu">
+                            <div
+                              className="dropdown-item"
+                              onClick={() => handleEditBlog(p)}
+                            >
+                              <Edit size={16} /> Edit
+                            </div>
+                            <div
+                              className="dropdown-item"
+                              onClick={() => handleDeleteBlog(p._id)}
+                            >
+                              <Trash2 size={16} /> Delete
+                            </div>
                           </div>
-                          <div
-                            className="dropdown-item"
-                            onClick={() => handleDeleteBlog(p._id)}
-                          >
-                            <Trash2 size={16} /> Delete
-                          </div>
-                        </div>
-                      )}
-                    </span>
-                  </p>
+                        )}
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))
-          )}
-        </div>
+              ))
+            )}
+          </div>
+        }
       </section>
     </main>
   );

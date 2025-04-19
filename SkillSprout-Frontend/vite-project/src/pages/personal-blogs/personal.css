@@ -14,15 +14,15 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
-  position: fixed; /* Changed from absolute to fixed */
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  overflow: auto; /* Allow scrolling within the modal if needed */
-  z-index: 1000; /* Ensure it's above other content */
+  overflow: auto; 
+  z-index: 1000; 
 }
 
 .profile-pic {

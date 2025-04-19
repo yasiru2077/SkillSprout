@@ -120,11 +120,11 @@ function MainNavigation({ userDetails }) {
               <Link to="/" onClick={() => setMobileMenuOpen(false)}>
                 Blog
               </Link>
-              <Link to="/about" onClick={() => setMobileMenuOpen(false)}>
-                About
-              </Link>
               <Link to="/Privacy" onClick={() => setMobileMenuOpen(false)}>
                 Personal Blogs
+              </Link>
+              <Link to="/AddBlogPage" onClick={() => setMobileMenuOpen(false)}>
+                Write
               </Link>
 
               <button className="mobile-logout" onClick={handleLogOut}>
